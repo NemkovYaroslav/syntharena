@@ -27,9 +27,10 @@ public class ShootProjectile : NetworkBehaviour
     private void InstantiateProjectileServerRpc()
     {
         GameObject go = Instantiate(projectile, shootTransform.position, shootTransform.rotation);
-        go.GetComponent<MoveProjectile>().projectileOwner = this;
+        
         Physics.IgnoreCollision(GetComponent<Collider>(), go.GetComponent<Collider>());
         Physics.IgnoreCollision(GetComponentInChildren<BoxCollider>(), go.GetComponent<Collider>());
-        go.GetComponent<NetworkObject>().Spawn();
+        
+        go.GetComponent<NetworkObject>().Spawn(true);
     }
 }

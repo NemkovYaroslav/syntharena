@@ -2,6 +2,7 @@ using System;
 using Support;
 using TMPro;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace Network
 {
@@ -10,7 +11,7 @@ namespace Network
         private readonly NetworkVariable<NetworkString> _playerName = new NetworkVariable<NetworkString>();
 
         private bool _overlaySet = false;
-
+        
         public override void OnNetworkSpawn()
         {
             if (!IsServer)
@@ -25,6 +26,7 @@ namespace Network
         {
             var localPlayerOverlay = gameObject.GetComponentInChildren<TextMeshProUGUI>();
             localPlayerOverlay.text = _playerName.Value;
+            Debug.Log(_playerName.Value);
         }
 
         private void Update()

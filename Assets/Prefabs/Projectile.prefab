@@ -13,11 +13,10 @@ GameObject:
   - component: {fileID: 7805781218101135393}
   - component: {fileID: 3809673686925786162}
   - component: {fileID: 4405745503138589942}
-  - component: {fileID: 4338954060561459926}
-  - component: {fileID: 4361338168449618021}
-  - component: {fileID: 901209701313696060}
-  - component: {fileID: 657389774180651032}
-  - component: {fileID: -56460332128065268}
+  - component: {fileID: 771884100415667396}
+  - component: {fileID: -2592923165740718974}
+  - component: {fileID: -314452108342760769}
+  - component: {fileID: -6016986476238773983}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
@@ -138,7 +137,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &4338954060561459926
+--- !u!114 &771884100415667396
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,7 +153,7 @@ MonoBehaviour:
   hitImpactEffect: {fileID: 2955623459812423943, guid: bebf01e82ae959c43880b00923f975ee,
     type: 3}
   shootForce: 15
---- !u!114 &4361338168449618021
+--- !u!114 &-2592923165740718974
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -174,7 +173,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &901209701313696060
+--- !u!114 &-314452108342760769
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -204,7 +203,7 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &657389774180651032
+--- !u!114 &-6016986476238773983
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -216,16 +215,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-56460332128065268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3349675645951723571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cf099a63863e2a4f813c8596db67cb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifetime: 5

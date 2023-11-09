@@ -1,55 +1,49 @@
-using Cinemachine;
-using Network;
+using System.Collections.Generic;
+using Sample;
 using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace Player
 {
+    [RequireComponent(typeof(NetworkObject))]
     [RequireComponent(typeof(ClientNetworkTransform))]
     public class PlayerControllerAlternative : NetworkBehaviour
     {
-        private enum PlayerState
+        public enum PlayerState
         {
             Idle,
             Move
         }
-
-        [Header("Movement Params")] [SerializeField]
-        private float walkSpeed = 4.0f;
+        
+        [Header("Movement Params")]
+        [SerializeField] private float walkSpeed = 4.0f;
 
         [SerializeField] private float sprintSpeed = 8.0f;
-        [HideInInspector] private bool isSprinting;
+        [HideInInspector] private bool _isSprinting;
+        //[HideInInspector] private PlayerState _playerState;
 
         [SerializeField] private float gravityScale = 1.5f;
-        [HideInInspector] private float yVelocity;
+        [HideInInspector] private float _yVelocity;
 
-        [Header("Look Params")] [SerializeField]
-        private Transform cameraTransform;
+        [Header("Look Params")]
+        [SerializeField] private Transform cameraTransform;
 
         private float _mouseX = 0.0f;
         private float _mouseY = 0.0f;
         [SerializeField] private float sensitivity = 1.0f;
 
-        private NetworkVariable<PlayerState> networkPlayerState = new NetworkVariable<PlayerState>();
-
-        public NetworkVariable<float> networkPlayerHealth = new NetworkVariable<float>(100.0f);
-        
         private CharacterController _characterController;
         private Animator _animator;
-
-        public override void OnNetworkSpawn()
-        {
-            CinemachineVirtualCamera cinemachineVirtualCamera =
-                cameraTransform.gameObject.GetComponentInChildren<CinemachineVirtualCamera>();
-    
-            cinemachineVirtualCamera.Priority = IsOwner ? 1 : 0;
-        }
-
+        private Camera _playerCamera;
+        
+        [SerializeField] private NetworkVariable<PlayerState> networkPlayerState = new NetworkVariable<PlayerState>();
+        
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
             _animator = GetComponentInChildren<Animator>();
+            _playerCamera = gameObject.GetComponentInChildren<Camera>();
         }
 
         private void Start()
@@ -58,6 +52,12 @@ namespace Player
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
+                
+                _playerCamera.enabled = true;
+                
+                //Vector3 position = RandomPointsPlayerSpawner.Instance.GetNextSpawnPoint().transform.position;
+                //transform.position = position;
+                //Debug.Log(position);
             }
         }
 
@@ -67,20 +67,20 @@ namespace Player
             {
                 ClientInput();
                 CharacterControllerGrounded();
-                ClientVisuals();
             }
+            ClientVisuals();
         }
 
         private void ClientInput()
         {
-            isSprinting = Input.GetKey(KeyCode.LeftShift);
+            _isSprinting = Input.GetKey(KeyCode.LeftShift);
             
             float horizontalInput = Input.GetAxisRaw("Horizontal");
             float verticalInput = Input.GetAxisRaw("Vertical");
             Vector3 moveInput = new Vector3(horizontalInput, 0.0f, verticalInput).normalized;
 
-            Vector3 moveDirection = transform.rotation * moveInput * (isSprinting ? sprintSpeed : walkSpeed);
-            moveDirection.y = yVelocity;
+            Vector3 moveDirection = transform.rotation * moveInput * (_isSprinting ? sprintSpeed : walkSpeed);
+            moveDirection.y = _yVelocity;
             moveDirection *= Time.deltaTime;
             _characterController.Move(moveDirection);
             
@@ -96,25 +96,25 @@ namespace Player
         
         private void CharacterControllerGrounded()
         {
-            if (yVelocity <= 0.0f && _characterController.isGrounded)
+            if (_yVelocity <= 0.0f && _characterController.isGrounded)
             {
-                yVelocity = Physics.gravity.y * Time.deltaTime;
+                _yVelocity = Physics.gravity.y * Time.deltaTime;
             }
             else
             {
-                yVelocity += Physics.gravity.y * gravityScale * Time.deltaTime;
+                _yVelocity += Physics.gravity.y * gravityScale * Time.deltaTime;
             }
+        }
+
+        [ServerRpc]
+        public void UpdatePlayerStateServerRpc(PlayerState state)
+        {
+            networkPlayerState.Value = state;
         }
         
         private void ClientVisuals()
         {
             _animator.SetFloat("Speed", networkPlayerState.Value == PlayerState.Idle ? 0.0f : 1.0f);
-        }
-
-        [ServerRpc]
-        private void UpdatePlayerStateServerRpc(PlayerState newPlayerState)
-        {
-            networkPlayerState.Value = newPlayerState;
         }
     }
 }

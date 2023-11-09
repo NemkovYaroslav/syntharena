@@ -12,6 +12,14 @@ namespace Projectile
         [SerializeField] private float shootForce;
         private Rigidbody _rigidbody;
         
+        public override void OnNetworkSpawn()
+        {
+            if (!IsOwner)
+            {
+                return;
+            }
+        }
+        
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
@@ -20,23 +28,25 @@ namespace Projectile
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!IsOwner)
+            if (!NetworkManager.Singleton.IsServer || !NetworkObject.IsSpawned)
             {
                 return;
             }
-
+            
+            DestroyProjectileServerRpc();
+            
+            /*
             var playerNetworkObject = other.gameObject.GetComponent<NetworkObject>();
             
             if (playerNetworkObject != null)
             {
                 ClientTakeDamageServerRpc(playerNetworkObject.OwnerClientId);
             }
-            
             InstantiateHitImpactEffectServerRpc(other.transform.position);
-        
-            DestroyServerRpc();
+            */
         }
 
+        /*
         [ServerRpc]
         private void ClientTakeDamageServerRpc(ulong clientId)
         {
@@ -49,19 +59,22 @@ namespace Projectile
                 Debug.unityLogger.Log(LogType.Log, "Current Health: " + client.networkPlayerHealth.Value);
             }
         }
+        */
 
+        /*
         [ServerRpc]
         private void InstantiateHitImpactEffectServerRpc(Vector3 hitPoint)
         {
             GameObject go = Instantiate(hitImpactEffect, transform.position, Quaternion.identity);
             go.GetComponent<NetworkObject>().Spawn();
         }
+        */
         
         [ServerRpc(RequireOwnership = false)]
-        private void DestroyServerRpc()
+        private void DestroyProjectileServerRpc()
         {
-            GetComponent<NetworkObject>().Despawn();
-            Destroy(this, 1.0f);
+            GetComponent<NetworkObject>().Despawn(true);
+            Destroy(this);
         }
     }
 }
