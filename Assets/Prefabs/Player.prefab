@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: -7523108142596527424}
   - component: {fileID: 2916427601540541478}
   - component: {fileID: 1680153268765556168}
+  - component: {fileID: -688244321646683176}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -145,9 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760dbd2ada625e6498a85106737fcf30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HealthBar: {fileID: 7484970521542237844}
-  Health:
-    m_InternalValue: 100
 --- !u!114 &2916427601540541478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,6 +191,20 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &-688244321646683176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750978479906686097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa5869eaa5fe0b2459f236bcf3aa4ec6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ReplicatedHealth:
+    m_InternalValue: 100
 --- !u!1 &2378490557592222877
 GameObject:
   m_ObjectHideFlags: 0
@@ -1077,6 +1089,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4445886342402888249}
   - component: {fileID: 7484970521542237844}
+  - component: {fileID: 4795660699682010980}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -1156,6 +1169,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4795660699682010980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7216650015526149681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2014d8bee104de34aaada358c8a8ac23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7522122679635233558
 GameObject:
   m_ObjectHideFlags: 0
