@@ -6,9 +6,9 @@ namespace Sample
     [RequireComponent(typeof(NetworkObject))]
     public class ServerHealthReplicator : NetworkBehaviour
     {
-        public NetworkVariable<int> m_ReplicatedHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        NetworkVariable<int> m_ReplicatedHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     
-        //public NetworkVariable<int> ReplicatedHealth => m_ReplicatedHealth; 
+        public NetworkVariable<int> ReplicatedHealth => m_ReplicatedHealth; 
     
         public override void OnNetworkSpawn()
         {

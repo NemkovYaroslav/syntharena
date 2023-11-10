@@ -14,8 +14,8 @@ namespace Sample
             m_HealthTracker = GetComponentInParent<ServerHealthReplicator>();
             m_HealthBar = GetComponent<Slider>();
             
-            m_HealthTracker.m_ReplicatedHealth.OnValueChanged += OnHealthChanged;
-            OnHealthChanged(0, m_HealthTracker.m_ReplicatedHealth.Value);
+            m_HealthTracker.ReplicatedHealth.OnValueChanged += OnHealthChanged;
+            OnHealthChanged(0, m_HealthTracker.ReplicatedHealth.Value);
         }
 
         void OnHealthChanged(int previousValue, int newValue)
@@ -30,7 +30,7 @@ namespace Sample
         
         void OnDestroy()
         {
-            m_HealthTracker.m_ReplicatedHealth.OnValueChanged -= OnHealthChanged;
+            m_HealthTracker.ReplicatedHealth.OnValueChanged -= OnHealthChanged;
         }
     }
 }

@@ -29,8 +29,6 @@ namespace Sample
 
         private void Update()
         {
-            //Debug.Log(OwnerClientId + " has " + m_HealthTracker.Health + " health");
-            
             if (!IsOwner)
             {
                 return;
