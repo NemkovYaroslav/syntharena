@@ -26,25 +26,23 @@ namespace Projectile
             
             if (other.gameObject.GetComponent<NetworkObject>() != null)
             {
-                if (!other.gameObject.GetComponent<NetworkObject>().IsOwner)
+                if (GetComponent<NetworkObject>().OwnerClientId == other.gameObject.GetComponent<NetworkObject>().OwnerClientId || !other.gameObject.GetComponent<NetworkObject>().IsOwner)
                 {
                     return;
                 }
             }
             else
             {
-                Debug.Log("THERE IS NO NETWORK IN OBJECT");
-                
                 if (other.gameObject.GetComponentInParent<NetworkObject>() != null)
                 {
-                    if (!other.gameObject.GetComponentInParent<NetworkObject>().IsOwner)
+                    if (GetComponent<NetworkObject>().OwnerClientId == other.gameObject.GetComponentInParent<NetworkObject>().OwnerClientId || !other.gameObject.GetComponentInParent<NetworkObject>().IsOwner)
                     {
                         return;
                     }
                 }
                 else
                 {
-                    Debug.Log("THERE IS NO NETWORK IN PARENT");
+                    Debug.Log("THERE IS NO NETWORK OBJECT");
                     
                     DestroyProjectileServerRpc();
                     return;
