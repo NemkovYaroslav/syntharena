@@ -27,6 +27,7 @@ namespace Sample
             m_HealthTracker = GetComponent<ServerHealthReplicator>();
         }
 
+        /*
         private void Update()
         {
             if (!IsOwner)
@@ -37,7 +38,23 @@ namespace Sample
             if (Input.GetKeyDown(KeyCode.T))
             {
                 m_HealthTracker.Health -= 10;
+                if (m_HealthTracker.Health <= 0)
+                {
+                    m_HealthTracker.Health = 100;
+                    GetComponent<CharacterController>().enabled = false;
+                    GetComponent<CharacterController>().transform.position = ServerPlayerSpawnPoints.Instance.ConsumeNextSpawnPoint().transform.position;
+                    GetComponent<CharacterController>().enabled = true;
+                }
             }
+        }
+        */
+
+        public void OnServerRespawnPlayer()
+        {
+            m_HealthTracker.Health = 100;
+            GetComponent<CharacterController>().enabled = false;
+            GetComponent<CharacterController>().transform.position = ServerPlayerSpawnPoints.Instance.ConsumeNextSpawnPoint().transform.position;
+            GetComponent<CharacterController>().enabled = true;
         }
         
         void OnServerSpawnPlayer()

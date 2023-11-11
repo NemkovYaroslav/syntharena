@@ -1,24 +1,18 @@
 using System;
 using Player;
+using Sample;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Projectile
 {
     public class MoveProjectile : NetworkBehaviour
     {
-        [HideInInspector] public ShootProjectile projectileOwner;
         [SerializeField] private GameObject hitImpactEffect;
         [SerializeField] private float shootForce;
         private Rigidbody _rigidbody;
-        
-        public override void OnNetworkSpawn()
-        {
-            if (!IsOwner)
-            {
-                return;
-            }
-        }
         
         private void Start()
         {
@@ -28,47 +22,63 @@ namespace Projectile
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!NetworkManager.Singleton.IsServer || !NetworkObject.IsSpawned)
+            Debug.Log("Trigger works correctly!");
+            
+            if (other.gameObject.GetComponent<NetworkObject>() != null)
             {
-                return;
+                if (!other.gameObject.GetComponent<NetworkObject>().IsOwner)
+                {
+                    return;
+                }
             }
+            else
+            {
+                Debug.Log("THERE IS NO NETWORK IN OBJECT");
+                
+                if (other.gameObject.GetComponentInParent<NetworkObject>() != null)
+                {
+                    if (!other.gameObject.GetComponentInParent<NetworkObject>().IsOwner)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    Debug.Log("THERE IS NO NETWORK IN PARENT");
+                    
+                    DestroyProjectileServerRpc();
+                    return;
+                }
+            }
+            
+            ServerHealthReplicator serverHealthReplicator = null;
+            NetworkObject networkObject = null;
+            if (other.gameObject.GetComponent<ServerHealthReplicator>() != null)
+            {
+                serverHealthReplicator = other.gameObject.GetComponent<ServerHealthReplicator>();
+                networkObject = other.gameObject.GetComponent<NetworkObject>();
+                Debug.Log("In body: " + serverHealthReplicator);
+            }
+            else
+            {
+                if (other.gameObject.GetComponentInParent<ServerHealthReplicator>() != null)
+                {
+                    serverHealthReplicator = other.gameObject.GetComponentInParent<ServerHealthReplicator>();
+                    networkObject = other.gameObject.GetComponentInParent<NetworkObject>();
+                    Debug.Log("In head: " + serverHealthReplicator);
+                }
+                else
+                {
+                    Debug.Log("NOTHING");
+                    DestroyProjectileServerRpc();
+                    return;
+                }
+            }
+
+            serverHealthReplicator.Health -= 10;
             
             DestroyProjectileServerRpc();
-            
-            /*
-            var playerNetworkObject = other.gameObject.GetComponent<NetworkObject>();
-            
-            if (playerNetworkObject != null)
-            {
-                ClientTakeDamageServerRpc(playerNetworkObject.OwnerClientId);
-            }
-            InstantiateHitImpactEffectServerRpc(other.transform.position);
-            */
         }
-
-        /*
-        [ServerRpc]
-        private void ClientTakeDamageServerRpc(ulong clientId)
-        {
-            var client = NetworkManager.Singleton.ConnectedClients[clientId]
-                .PlayerObject.GetComponent<PlayerControllerAlternative>();
-            if (client != null && client.networkPlayerHealth.Value > 0.0f)
-            {
-                client.networkPlayerHealth.Value -= 10.0f;
-                
-                Debug.unityLogger.Log(LogType.Log, "Current Health: " + client.networkPlayerHealth.Value);
-            }
-        }
-        */
-
-        /*
-        [ServerRpc]
-        private void InstantiateHitImpactEffectServerRpc(Vector3 hitPoint)
-        {
-            GameObject go = Instantiate(hitImpactEffect, transform.position, Quaternion.identity);
-            go.GetComponent<NetworkObject>().Spawn();
-        }
-        */
         
         [ServerRpc(RequireOwnership = false)]
         private void DestroyProjectileServerRpc()
