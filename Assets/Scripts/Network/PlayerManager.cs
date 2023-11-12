@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Support;
 using Unity.Netcode;
 using UnityEngine;
@@ -12,7 +13,6 @@ namespace Network
     
         private void Start()
         {
-            
             NetworkManager.Singleton.OnClientConnectedCallback += (id) =>
             {
                 if (!IsServer)

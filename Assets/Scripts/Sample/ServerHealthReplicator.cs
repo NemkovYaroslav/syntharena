@@ -13,7 +13,9 @@ namespace Sample
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+            
             m_ReplicatedHealth.Value = 100;
+            
             if (!IsServer)
             {
                 enabled = false;

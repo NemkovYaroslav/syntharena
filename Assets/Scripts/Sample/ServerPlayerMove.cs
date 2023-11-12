@@ -11,6 +11,8 @@ namespace Sample
         
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
+            
             if (!IsServer)
             {
                 //enabled = false;
@@ -18,36 +20,12 @@ namespace Sample
             }
 
             OnServerSpawnPlayer();
-            
-            //base.OnNetworkSpawn();
         }
 
         private void Start()
         {
             m_HealthTracker = GetComponent<ServerHealthReplicator>();
         }
-
-        /*
-        private void Update()
-        {
-            if (!IsOwner)
-            {
-                return;
-            }
-            
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                m_HealthTracker.Health -= 10;
-                if (m_HealthTracker.Health <= 0)
-                {
-                    m_HealthTracker.Health = 100;
-                    GetComponent<CharacterController>().enabled = false;
-                    GetComponent<CharacterController>().transform.position = ServerPlayerSpawnPoints.Instance.ConsumeNextSpawnPoint().transform.position;
-                    GetComponent<CharacterController>().enabled = true;
-                }
-            }
-        }
-        */
 
         public void OnServerRespawnPlayer()
         {

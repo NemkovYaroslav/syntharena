@@ -11,77 +11,34 @@ public class ShootProjectile : NetworkBehaviour
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform shootTransform;
 
-    //private Material calmFaceMaterial;
-    //private Material fireFaceMaterial;
-
-    //private MeshRenderer cubeMeshRenderer;
-
-    private NetworkVariable<NetworkString> _calmFaceMaterialName = new NetworkVariable<NetworkString>("doomguy_calmface");
-    private NetworkVariable<NetworkString> _fireFaceMaterialName = new NetworkVariable<NetworkString>("doomguy_screames");
+    private int _index = 0;
     
-    private void Start()
-    {
-        //calmFaceMaterial = Resources.Load<Material>("doomguy_calmface");
-        //fireFaceMaterial = Resources.Load<Material>("doomguy_screames");
-
-        //cubeMeshRenderer = GameObject.Find("RandomCube").GetComponent<MeshRenderer>();
-    }
+    private NetworkVariable<int> _playerIndexMaterial = new NetworkVariable<int>(0);
 
     void Update()
     {
-        /*
-        if (!IsOwner)
-        {
-            return;
-        }
-        */
+        //Debug.Log(" CURRENT ID: " + OwnerClientId + " VALUE " + _playerIndexMaterial.Value);
+        
+        GetComponent<MeshRenderer>().sharedMaterial = GameObject.Find("StaticManager").GetComponent<StaticVariables>()
+            .PlayerMaterial[_playerIndexMaterial.Value];
         
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            ChangeMaterialServerRpc(OwnerClientId);
-            InstantiateProjectileServerRpc();
+            ChangeMaterialServerRpc();
+            
+            GetComponent<MeshRenderer>().sharedMaterial = GameObject.Find("StaticManager").GetComponent<StaticVariables>()
+                .PlayerMaterial[_playerIndexMaterial.Value];
+
+            //InstantiateProjectileServerRpc();
         }
     }
 
     [ServerRpc]
-    private void ChangeMaterialServerRpc(ulong clientId)
+    private void ChangeMaterialServerRpc()
     {
-        //Debug.Log(" ID: " + clientId + " MATERIAL " + NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponentInChildren<Kostil>().gameObject.GetComponent<MeshRenderer>().sharedMaterial);
-
-        //var meshRenderer = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponentInChildren<Kostil>().gameObject.GetComponent<MeshRenderer>();
-
-        var meshRenderer = GameObject.Find("RandomCube").GetComponent<MeshRenderer>();
-
-        var calmFaceMaterial = Resources.Load<Material>(_calmFaceMaterialName.Value);
-        var fireFaceMaterial = Resources.Load<Material>(_fireFaceMaterialName.Value);
-        
-        /*
-        if (cubeMeshRenderer.sharedMaterial != calmFaceMaterial)
-        {
-            cubeMeshRenderer.sharedMaterial = calmFaceMaterial;
-        }
-        else
-        {
-            cubeMeshRenderer.sharedMaterial = fireFaceMaterial;
-        }
-        */
-
-        ///*
-        Debug.Log("OLD MATERIAL: " + meshRenderer.sharedMaterial);
-        if (meshRenderer.sharedMaterial == calmFaceMaterial)
-        {
-            Debug.Log(" NOW I AM FIRE ");
-            meshRenderer.sharedMaterial = fireFaceMaterial;
-        }
-        else
-        {
-            Debug.Log(" NOW I AM CALM ");
-            meshRenderer.sharedMaterial = calmFaceMaterial;
-        }
-        Debug.Log("NEW MATERIAL: " + meshRenderer.sharedMaterial);
-        //*/
+        _playerIndexMaterial.Value = _playerIndexMaterial.Value == 0 ? 1 : 0;
     }
-
+    
     IEnumerator ShootDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
