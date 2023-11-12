@@ -19,7 +19,7 @@ namespace Sample
 
             OnServerSpawnPlayer();
             
-            base.OnNetworkSpawn();
+            //base.OnNetworkSpawn();
         }
 
         private void Start()

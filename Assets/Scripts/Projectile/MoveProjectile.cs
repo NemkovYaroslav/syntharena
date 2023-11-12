@@ -22,8 +22,6 @@ namespace Projectile
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Trigger works correctly!");
-            
             if (other.gameObject.GetComponent<NetworkObject>() != null)
             {
                 if (GetComponent<NetworkObject>().OwnerClientId == other.gameObject.GetComponent<NetworkObject>().OwnerClientId || !other.gameObject.GetComponent<NetworkObject>().IsOwner)
@@ -42,32 +40,24 @@ namespace Projectile
                 }
                 else
                 {
-                    Debug.Log("THERE IS NO NETWORK OBJECT");
-                    
                     DestroyProjectileServerRpc();
                     return;
                 }
             }
             
             ServerHealthReplicator serverHealthReplicator = null;
-            NetworkObject networkObject = null;
             if (other.gameObject.GetComponent<ServerHealthReplicator>() != null)
             {
                 serverHealthReplicator = other.gameObject.GetComponent<ServerHealthReplicator>();
-                networkObject = other.gameObject.GetComponent<NetworkObject>();
-                Debug.Log("In body: " + serverHealthReplicator);
             }
             else
             {
                 if (other.gameObject.GetComponentInParent<ServerHealthReplicator>() != null)
                 {
                     serverHealthReplicator = other.gameObject.GetComponentInParent<ServerHealthReplicator>();
-                    networkObject = other.gameObject.GetComponentInParent<NetworkObject>();
-                    Debug.Log("In head: " + serverHealthReplicator);
                 }
                 else
                 {
-                    Debug.Log("NOTHING");
                     DestroyProjectileServerRpc();
                     return;
                 }
