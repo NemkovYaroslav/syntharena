@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class StaticVariables : NetworkBehaviour
+public class StaticVariables : MonoBehaviour
 {
     private static List<Material> _playerMaterials = new List<Material>();
     

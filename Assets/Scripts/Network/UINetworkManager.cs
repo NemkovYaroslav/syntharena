@@ -13,11 +13,20 @@ namespace Network
     
         [SerializeField]
         private TextMeshProUGUI playersInGameText;
+
+        [SerializeField]
+        public GameObject endGameBanner;
+
+        [SerializeField]
+        public TextMeshProUGUI endGameText;
     
         // because we use multiple screens
         private void Awake()
         {
             Cursor.visible = true;
+            
+            endGameBanner.SetActive(false);
+            endGameText.text = "GAME END: YOU LOSE";
         }
     
         private void Update()

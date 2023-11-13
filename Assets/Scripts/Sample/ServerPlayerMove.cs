@@ -1,4 +1,3 @@
-using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -18,7 +17,7 @@ namespace Sample
                 //enabled = false;
                 return;
             }
-
+            
             OnServerSpawnPlayer();
         }
 
@@ -30,6 +29,7 @@ namespace Sample
         public void OnServerRespawnPlayer()
         {
             m_HealthTracker.Health = 100;
+
             GetComponent<CharacterController>().enabled = false;
             GetComponent<CharacterController>().transform.position = ServerPlayerSpawnPoints.Instance.ConsumeNextSpawnPoint().transform.position;
             GetComponent<CharacterController>().enabled = true;

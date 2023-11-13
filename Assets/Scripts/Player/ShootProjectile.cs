@@ -10,26 +10,39 @@ public class ShootProjectile : NetworkBehaviour
 {
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform shootTransform;
-
-    private int _index = 0;
     
     private NetworkVariable<int> _playerIndexMaterial = new NetworkVariable<int>(0);
 
+    private bool _canShoot = true;
+    private float _shootDelay = 0.5f;
+
+    private void Start()
+    {
+        _playerIndexMaterial.OnValueChanged += OnMaterialChange;
+    }
+
+    private void OnMaterialChange(int previousValue, int newValue)
+    {
+        GetComponentInChildren<Kostil>().gameObject.GetComponent<MeshRenderer>().sharedMaterial 
+            = GameObject.Find("StaticManager").GetComponent<StaticVariables>().PlayerMaterial[newValue];
+    }
+    
     void Update()
     {
-        //Debug.Log(" CURRENT ID: " + OwnerClientId + " VALUE " + _playerIndexMaterial.Value);
-        
-        GetComponent<MeshRenderer>().sharedMaterial = GameObject.Find("StaticManager").GetComponent<StaticVariables>()
-            .PlayerMaterial[_playerIndexMaterial.Value];
-        
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            ChangeMaterialServerRpc();
+            if (!IsOwner)
+            {
+                return;
+            }
             
-            GetComponent<MeshRenderer>().sharedMaterial = GameObject.Find("StaticManager").GetComponent<StaticVariables>()
-                .PlayerMaterial[_playerIndexMaterial.Value];
-
-            //InstantiateProjectileServerRpc();
+            if (_canShoot)
+            {
+                _canShoot = false;
+                ChangeMaterialServerRpc();
+                InstantiateProjectileServerRpc();
+                StartCoroutine(ShootDelay(_shootDelay));
+            }
         }
     }
 
@@ -42,6 +55,8 @@ public class ShootProjectile : NetworkBehaviour
     IEnumerator ShootDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+        _canShoot = true;
+        ChangeMaterialServerRpc();
     }
     
     [ServerRpc]

@@ -63,7 +63,12 @@ namespace Projectile
                 }
             }
 
-            serverHealthReplicator.Health -= 10;
+            serverHealthReplicator.Health -= 25;
+            
+            if (serverHealthReplicator.Health <= 0)
+            {
+                serverHealthReplicator.gameObject.GetComponent<ServerPlayerMove>().OnServerRespawnPlayer();
+            }
             
             DestroyProjectileServerRpc();
         }
