@@ -1006,6 +1006,7 @@ GameObject:
   - component: {fileID: 1809643350903284724}
   - component: {fileID: 7957606780310436085}
   - component: {fileID: 4738152507288977083}
+  - component: {fileID: 2519718370626792148}
   m_Layer: 0
   m_Name: Widget
   m_TagString: Untagged
@@ -1106,6 +1107,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 760af02a19046884ba13ec4127f1c066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2519718370626792148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7105170188707581564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e387ab431d4d1ee4da0d1408e91d0f2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7216650015526149681
