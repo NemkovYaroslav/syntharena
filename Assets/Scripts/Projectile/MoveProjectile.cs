@@ -10,7 +10,6 @@ namespace Projectile
 {
     public class MoveProjectile : NetworkBehaviour
     {
-        [SerializeField] private GameObject hitImpactEffect;
         [SerializeField] private float shootForce;
         private Rigidbody _rigidbody;
         

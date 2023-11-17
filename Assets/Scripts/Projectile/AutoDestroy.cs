@@ -16,7 +16,6 @@ namespace Projectile
         private void AutoDestroyServerRpc()
         {
             Destroy(gameObject, lifetime);
-            //GetComponent<NetworkObject>().Despawn();
         }
     }
 }
