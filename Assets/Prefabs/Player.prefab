@@ -41,6 +41,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6700876038937749259}
   - component: {fileID: -2267308772083246039}
+  - component: {fileID: 3298988353087082134}
+  - component: {fileID: 4906011089838748392}
   - component: {fileID: -7859700061843519246}
   - component: {fileID: -7523108142596527424}
   - component: {fileID: 2916427601540541478}
@@ -98,6 +100,49 @@ CharacterController:
   m_SkinWidth: 0.04
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &3298988353087082134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750978479906686097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 4df71e343bc79684992ef0726ed3e3b1,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &4906011089838748392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750978479906686097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f30a10141f58c2469c6f4eb286c513f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-7859700061843519246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,11 +155,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 134c0405be740df4ba5a5f68690ed764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputManager: {fileID: 4906011089838748392}
   walkSpeed: 4
   sprintSpeed: 8
-  gravityScale: 1.5
-  cameraTransform: {fileID: 6387001799244720280}
   sensitivity: 1
+  cameraTransform: {fileID: 6387001799244720280}
+  jumpHeight: 2
+  gravityScale: 1.5
 --- !u!114 &-7523108142596527424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,6 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 736ea80d1ccedda49974b8cb99631d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputManager: {fileID: 4906011089838748392}
   projectile: {fileID: 3349675645951723571, guid: dc139ba9abac53b4bbcc81cc3240535b,
     type: 3}
   shootTransform: {fileID: 3766486659630900008}

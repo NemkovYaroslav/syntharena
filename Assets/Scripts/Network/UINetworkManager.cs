@@ -32,6 +32,8 @@ namespace Network
                 {
                     Debug.unityLogger.Log(LogType.Log,
                         NetworkManager.Singleton.StartHost() ? "Host started..." : "Host could not be started...");
+                    
+                    DisableButtons();
                 }
             );
             startServerButton.onClick.AddListener(
@@ -39,6 +41,8 @@ namespace Network
                 {
                     Debug.unityLogger.Log(LogType.Log,
                         NetworkManager.Singleton.StartServer() ? "Server started..." : "Server could not be started...");
+                    
+                    DisableButtons();
                 }
             );
             startClientButton.onClick.AddListener(
@@ -46,8 +50,17 @@ namespace Network
                 {
                     Debug.unityLogger.Log(LogType.Log,
                         NetworkManager.Singleton.StartClient() ? "Client started..." : "Client could not be started...");
+                    
+                    DisableButtons();
                 }
             );
+        }
+
+        private void DisableButtons()
+        {
+            startHostButton.enabled = false;
+            startServerButton.enabled = false;
+            startClientButton.enabled = false;
         }
     }
 }

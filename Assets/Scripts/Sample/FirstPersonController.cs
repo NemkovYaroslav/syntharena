@@ -1,6 +1,5 @@
-using System;
-using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Sample
 {
@@ -11,24 +10,26 @@ namespace Sample
             Idle,
             Move
         }
+
+        [SerializeField] private InputManager inputManager;
         
-        [Header("Movement Params")] [SerializeField]
-        private float walkSpeed = 4.0f;
-
+        [Header("Movement Params")]
+        [SerializeField] private float walkSpeed = 4.0f;
         [SerializeField] private float sprintSpeed = 8.0f;
-        [HideInInspector] private bool _isSprinting;
-        [HideInInspector] private PlayerState _playerState;
+        private bool _isSprinting = false;
+        private PlayerState _playerState;
 
-        [SerializeField] private float gravityScale = 1.5f;
-        [HideInInspector] private float _yVelocity;
-
-        [Header("Look Params")] [SerializeField]
-        private Transform cameraTransform;
-
+        [Header("Look Params")]
+        [SerializeField] private float sensitivity = 1.0f;
+        [SerializeField] private Transform cameraTransform;
         private float _mouseX = 0.0f;
         private float _mouseY = 0.0f;
-        [SerializeField] private float sensitivity = 1.0f;
-    
+
+        [Header("Jump Params")]
+        [SerializeField] private float jumpHeight = 2.0f;
+        [SerializeField] private float gravityScale = 1.5f;
+        private float _yVelocity;
+        
         private CharacterController _characterController;
         private Animator _animator;
 
@@ -36,6 +37,11 @@ namespace Sample
         {
             _characterController = GetComponent<CharacterController>();
             _animator = GetComponentInChildren<Animator>();
+
+            inputManager.inputMaster.Player.Jump.started += _ => ClientJump();
+            
+            inputManager.inputMaster.Player.Sprint.started += _ => ClientSprint();
+            inputManager.inputMaster.Player.Sprint.canceled += _ => ClientSprint();
         }
 
         private void Update()
@@ -44,7 +50,7 @@ namespace Sample
             ClientInput();
             ClientVisuals();
         }
-
+        
         private void CharacterControllerGrounded()
         {
             if (_yVelocity <= 0.0f && _characterController.isGrounded)
@@ -56,13 +62,21 @@ namespace Sample
                 _yVelocity += Physics.gravity.y * gravityScale * Time.deltaTime;
             }
         }
+
+        private void ClientJump()
+        {
+            _yVelocity = Mathf.Sqrt(jumpHeight * -2.0f * Physics.gravity.y);
+        }
+
+        private void ClientSprint()
+        {
+            _isSprinting = !_isSprinting;
+        }
         
         private void ClientInput()
         {
-            _isSprinting = Input.GetKey(KeyCode.LeftShift);
-        
-            float horizontalInput = Input.GetAxisRaw("Horizontal");
-            float verticalInput = Input.GetAxisRaw("Vertical");
+            float horizontalInput = inputManager.inputMaster.Player.Move.ReadValue<Vector2>().x;
+            float verticalInput = inputManager.inputMaster.Player.Move.ReadValue<Vector2>().y;
             Vector3 moveInput = new Vector3(horizontalInput, 0.0f, verticalInput).normalized;
 
             Vector3 moveDirection = transform.rotation * moveInput * (_isSprinting ? sprintSpeed : walkSpeed);
@@ -72,7 +86,7 @@ namespace Sample
 
             _playerState = (moveInput.normalized.magnitude == 0.0f ? PlayerState.Idle : PlayerState.Move);
         }
-    
+        
         private void ClientVisuals()
         { 
             _animator.SetFloat("Speed", _playerState == PlayerState.Idle ? 0.0f : 1.0f);
@@ -85,8 +99,8 @@ namespace Sample
 
         private void CameraMove()
         {
-            _mouseX = Input.GetAxisRaw("Mouse X") * sensitivity;
-            _mouseY -= Input.GetAxisRaw("Mouse Y") * sensitivity;
+            _mouseX = inputManager.inputMaster.Player.Look.ReadValue<Vector2>().x * sensitivity * Time.deltaTime * 35.0f;
+            _mouseY -= inputManager.inputMaster.Player.Look.ReadValue<Vector2>().y * sensitivity * Time.deltaTime * 35.0f;
             _mouseY = Mathf.Clamp(_mouseY, -90.0f, 90.0f);
 
             cameraTransform.localRotation = Quaternion.Euler(_mouseY, 0.0f, 0.0f);

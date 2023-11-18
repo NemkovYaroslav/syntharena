@@ -12,7 +12,7 @@ namespace Projectile
             AutoDestroyServerRpc();
         }
 
-        [ServerRpc]
+        [ServerRpc (RequireOwnership = false)]
         private void AutoDestroyServerRpc()
         {
             Destroy(gameObject, lifetime);

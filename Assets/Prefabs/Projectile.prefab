@@ -151,8 +151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd9fb628d40955a43a666a4d44d98ec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitImpactEffect: {fileID: 2955623459812423943, guid: bebf01e82ae959c43880b00923f975ee,
-    type: 3}
   shootForce: 15
 --- !u!114 &-2592923165740718974
 MonoBehaviour:
@@ -228,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cf099a63863e2a4f813c8596db67cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 3
+  lifetime: 5
 --- !u!1001 &1800696745710589466
 PrefabInstance:
   m_ObjectHideFlags: 0

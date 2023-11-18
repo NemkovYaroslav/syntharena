@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class ShootProjectile : NetworkBehaviour
 {
+    [SerializeField] private InputManager inputManager;
+    
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform shootTransform;
     
@@ -19,6 +21,8 @@ public class ShootProjectile : NetworkBehaviour
     private void Start()
     {
         _playerIndexMaterial.OnValueChanged += OnMaterialChange;
+
+        inputManager.inputMaster.Player.Fire.started += _ => ClientShootProjectile();
     }
 
     private void OnMaterialChange(int previousValue, int newValue)
@@ -27,22 +31,19 @@ public class ShootProjectile : NetworkBehaviour
             = GameObject.Find("StaticManager").GetComponent<StaticVariables>().PlayerMaterial[newValue];
     }
     
-    void Update()
+    private void ClientShootProjectile()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (!IsOwner)
         {
-            if (!IsOwner)
-            {
-                return;
-            }
+            return;
+        }
             
-            if (_canShoot)
-            {
-                _canShoot = false;
-                ChangeMaterialServerRpc();
-                InstantiateProjectileServerRpc();
-                StartCoroutine(ShootDelay(_shootDelay));
-            }
+        if (_canShoot)
+        {
+            _canShoot = false;
+            ChangeMaterialServerRpc();
+            InstantiateProjectileServerRpc();
+            StartCoroutine(ShootDelay(_shootDelay));
         }
     }
 
