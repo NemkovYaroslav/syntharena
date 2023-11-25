@@ -1,22 +1,24 @@
-using System;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+namespace Sample
 {
-    public InputMaster inputMaster;
-
-    private void Awake()
+    public class InputManager : MonoBehaviour
     {
-        inputMaster = new InputMaster();
-    }
+        public InputMaster inputMaster;
 
-    private void OnEnable()
-    {
-        inputMaster.Enable();
-    }
+        private void Awake()
+        {
+            inputMaster = new InputMaster();
+        }
 
-    private void OnDisable()
-    {
-        inputMaster.Disable();
+        private void OnEnable()
+        {
+            inputMaster.Enable();
+        }
+
+        private void OnDisable()
+        {
+            inputMaster.Disable();
+        }
     }
 }

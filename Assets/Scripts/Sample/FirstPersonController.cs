@@ -99,8 +99,8 @@ namespace Sample
 
         private void CameraMove()
         {
-            _mouseX = inputManager.inputMaster.Player.Look.ReadValue<Vector2>().x * sensitivity * Time.deltaTime * 35.0f;
-            _mouseY -= inputManager.inputMaster.Player.Look.ReadValue<Vector2>().y * sensitivity * Time.deltaTime * 35.0f;
+            _mouseX = inputManager.inputMaster.Player.Look.ReadValue<Vector2>().x * sensitivity * 0.05f;
+            _mouseY -= inputManager.inputMaster.Player.Look.ReadValue<Vector2>().y * sensitivity * 0.05f;
             _mouseY = Mathf.Clamp(_mouseY, -90.0f, 90.0f);
 
             cameraTransform.localRotation = Quaternion.Euler(_mouseY, 0.0f, 0.0f);

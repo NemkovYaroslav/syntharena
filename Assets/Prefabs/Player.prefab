@@ -158,7 +158,7 @@ MonoBehaviour:
   inputManager: {fileID: 4906011089838748392}
   walkSpeed: 4
   sprintSpeed: 8
-  sensitivity: 1
+  sensitivity: 50
   cameraTransform: {fileID: 6387001799244720280}
   jumpHeight: 2
   gravityScale: 1.5
@@ -1395,7 +1395,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9ea33b6493dc73b43badb471bfbd6bc1, type: 2}
+  - {fileID: 2100000, guid: b1cf8cb390f8f4c44bb7bbb3dd4e2909, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -11,8 +11,10 @@ namespace Network
         [SerializeField] private Button startHostButton;
         [SerializeField] private Button startClientButton;
     
-        [SerializeField]
-        private TextMeshProUGUI playersInGameText;
+        [SerializeField] private TextMeshProUGUI playersInGameText;
+
+        [SerializeField] private Canvas mainMenuHolder;
+        [SerializeField] private Canvas mobileControl;
     
         // because we use multiple screens
         private void Awake()
@@ -34,6 +36,8 @@ namespace Network
                         NetworkManager.Singleton.StartHost() ? "Host started..." : "Host could not be started...");
                     
                     DisableButtons();
+                    EnableMobileControllers();
+                    DisableMainMenu();
                 }
             );
             startServerButton.onClick.AddListener(
@@ -43,6 +47,8 @@ namespace Network
                         NetworkManager.Singleton.StartServer() ? "Server started..." : "Server could not be started...");
                     
                     DisableButtons();
+                    EnableMobileControllers();
+                    DisableMainMenu();
                 }
             );
             startClientButton.onClick.AddListener(
@@ -52,6 +58,8 @@ namespace Network
                         NetworkManager.Singleton.StartClient() ? "Client started..." : "Client could not be started...");
                     
                     DisableButtons();
+                    EnableMobileControllers();
+                    DisableMainMenu();
                 }
             );
         }
@@ -61,6 +69,16 @@ namespace Network
             startHostButton.enabled = false;
             startServerButton.enabled = false;
             startClientButton.enabled = false;
+        }
+
+        private void EnableMobileControllers()
+        {
+            mobileControl.gameObject.SetActive(true);
+        }
+
+        private void DisableMainMenu()
+        {
+            mainMenuHolder.gameObject.SetActive(false);
         }
     }
 }
