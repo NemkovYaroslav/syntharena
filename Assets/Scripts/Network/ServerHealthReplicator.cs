@@ -6,15 +6,13 @@ namespace Network
     [RequireComponent(typeof(NetworkObject))]
     public class ServerHealthReplicator : NetworkBehaviour
     {
-        private readonly NetworkVariable<int> _replicatedHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    
-        public NetworkVariable<int> ReplicatedHealth => _replicatedHealth; 
-    
+        public NetworkVariable<int> ReplicatedHealth { get; } = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
             
-            _replicatedHealth.Value = 100;
+            ReplicatedHealth.Value = 100;
             
             if (!IsServer)
             {
@@ -25,8 +23,8 @@ namespace Network
     
         public int Health
         {
-            get => _replicatedHealth.Value;
-            set => _replicatedHealth.Value = value;
+            get => ReplicatedHealth.Value;
+            set => ReplicatedHealth.Value = value;
         }
     }
 }
