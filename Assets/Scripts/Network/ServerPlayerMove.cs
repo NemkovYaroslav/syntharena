@@ -1,14 +1,15 @@
+using Support;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Sample
+namespace Network
 {
     [DefaultExecutionOrder(0)]
     public class ServerPlayerMove : NetworkBehaviour
     {
         [SerializeField] private AnalyticsComponent analytics;
             
-        private ServerHealthReplicator m_HealthTracker;
+        private ServerHealthReplicator _healthTracker;
         
         public override void OnNetworkSpawn()
         {
@@ -25,12 +26,12 @@ namespace Sample
 
         private void Start()
         {
-            m_HealthTracker = GetComponent<ServerHealthReplicator>();
+            _healthTracker = GetComponent<ServerHealthReplicator>();
         }
 
         public void OnServerRespawnPlayer()
         {
-            m_HealthTracker.Health = 100;
+            _healthTracker.Health = 100;
 
             GetComponent<CharacterController>().enabled = false;
             GetComponent<CharacterController>().transform.position = ServerPlayerSpawnPoints.Instance.ConsumeNextSpawnPoint().transform.position;

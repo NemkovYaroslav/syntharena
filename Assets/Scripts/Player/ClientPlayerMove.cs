@@ -1,53 +1,49 @@
+using Network;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Serialization;
 
-namespace Sample
+namespace Player
 {
     [RequireComponent(typeof(ServerPlayerMove))]
     [DefaultExecutionOrder(1)]
     public class ClientPlayerMove : NetworkBehaviour
     {
-        [SerializeField]
-        CharacterController m_CharacterController;
+        [FormerlySerializedAs("mCharacterController")] [FormerlySerializedAs("m_CharacterController")] [SerializeField]
+        private CharacterController characterController;
         
-        [SerializeField]
-        FirstPersonController m_FirstPersonController;
+        [FormerlySerializedAs("mFirstPersonController")] [FormerlySerializedAs("m_FirstPersonController")] [SerializeField]
+        private FirstPersonController firstPersonController;
         
-        [SerializeField]
-        Camera m_PlayerCamera;
-        
-        void Awake()
+        [FormerlySerializedAs("mPlayerCamera")] [FormerlySerializedAs("m_PlayerCamera")] [SerializeField]
+        private Camera playerCamera;
+
+        private void Awake()
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-
-            //m_CharacterController = GetComponent<CharacterController>();
-            //m_FirstPersonController = GetComponent<FirstPersonController>();
-            //m_PlayerCamera = GetComponentInChildren<Camera>();
             
-            m_FirstPersonController.enabled = false;
-            m_CharacterController.enabled = false;
-            m_PlayerCamera.enabled = false;
+            firstPersonController.enabled = false;
+            characterController.enabled = false;
+            playerCamera.enabled = false;
         }
         
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
             
-            m_CharacterController.enabled = true;
+            characterController.enabled = true;
             
             enabled = IsClient;
             if (!IsOwner)
             {
                 enabled = false;
-                //m_CharacterController.enabled = false;
                 return;
             }
             
-            m_FirstPersonController.enabled = true;
+            firstPersonController.enabled = true;
             
-            m_PlayerCamera.enabled = true;
+            playerCamera.enabled = true;
         }
     }
 }

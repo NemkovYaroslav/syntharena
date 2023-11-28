@@ -1,36 +1,37 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace Sample
+namespace Network
 {
     public class ServerPlayerSpawnPoints : MonoBehaviour
     {
-        [SerializeField]
-        List<GameObject> m_SpawnPoints;
+        [FormerlySerializedAs("mSpawnPoints")] [FormerlySerializedAs("m_SpawnPoints")] [SerializeField]
+        private List<GameObject> spawnPoints;
 
-        static ServerPlayerSpawnPoints s_Instance;
+        private static ServerPlayerSpawnPoints _instance;
 
         public static ServerPlayerSpawnPoints Instance
         {
             get
             {
-                if (s_Instance == null)
+                if (_instance == null)
                 {
-                    s_Instance = FindObjectOfType<ServerPlayerSpawnPoints>();
+                    _instance = FindObjectOfType<ServerPlayerSpawnPoints>();
                 }
 
-                return s_Instance;
+                return _instance;
             }
         }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
-            s_Instance = null;
+            _instance = null;
         }
 
         public GameObject ConsumeNextSpawnPoint()
         {
-            var toReturn = m_SpawnPoints[Random.Range(0, m_SpawnPoints.Count - 1)];
+            var toReturn = spawnPoints[Random.Range(0, spawnPoints.Count - 1)];
             return toReturn;
         }
     }

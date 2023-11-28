@@ -1,10 +1,9 @@
-using System;
 using Support;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Network
+namespace Player
 {
     public class PlayerWidget : NetworkBehaviour
     {
@@ -22,7 +21,7 @@ namespace Network
             _playerName.Value = $"Player {OwnerClientId}";
         }
 
-        public void SetOverlay()
+        private void SetOverlay()
         {
             var localPlayerOverlay = gameObject.GetComponentInChildren<TextMeshProUGUI>();
             localPlayerOverlay.text = _playerName.Value;

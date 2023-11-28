@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace Sample
+namespace Player
 {
     public class FirstPersonController : MonoBehaviour
     {
@@ -33,23 +32,32 @@ namespace Sample
         
         private CharacterController _characterController;
         private Animator _animator;
+        private static readonly int Speed = Animator.StringToHash("Speed");
 
         private void Start()
         {
             _characterController = GetComponent<CharacterController>();
             _animator = GetComponentInChildren<Animator>();
 
-            inputManager.inputMaster.Player.Jump.started += _ => ClientJump();
+            inputManager.InputMaster.Player.Jump.started += _ => ClientJump();
             
-            inputManager.inputMaster.Player.Sprint.started += _ => ClientSprint();
-            inputManager.inputMaster.Player.Sprint.canceled += _ => ClientSprint();
+            inputManager.InputMaster.Player.Sprint.started += _ => ClientSprint();
+            inputManager.InputMaster.Player.Sprint.canceled += _ => ClientSprint();
 
-            inputManager.inputMaster.Player.ThrowException.started += _ => ClientThrowSomeException();
+            inputManager.InputMaster.Player.ThrowException.started += _ => ClientThrowSomeException();
         }
 
         private void ClientThrowSomeException()
         {
-            
+            try
+            {
+                throw new Exception("My name is a BUG");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         private void Update()
@@ -83,8 +91,8 @@ namespace Sample
         
         private void ClientInput()
         {
-            float horizontalInput = inputManager.inputMaster.Player.Move.ReadValue<Vector2>().x;
-            float verticalInput = inputManager.inputMaster.Player.Move.ReadValue<Vector2>().y;
+            float horizontalInput = inputManager.InputMaster.Player.Move.ReadValue<Vector2>().x;
+            float verticalInput = inputManager.InputMaster.Player.Move.ReadValue<Vector2>().y;
             Vector3 moveInput = new Vector3(horizontalInput, 0.0f, verticalInput).normalized;
 
             Vector3 moveDirection = transform.rotation * moveInput * (_isSprinting ? sprintSpeed : walkSpeed);
@@ -97,7 +105,7 @@ namespace Sample
         
         private void ClientVisuals()
         { 
-            _animator.SetFloat("Speed", _playerState == PlayerState.Idle ? 0.0f : 1.0f);
+            _animator.SetFloat(Speed, _playerState == PlayerState.Idle ? 0.0f : 1.0f);
         }
         
         private void LateUpdate()
@@ -107,8 +115,8 @@ namespace Sample
 
         private void CameraMove()
         {
-            _mouseX = inputManager.inputMaster.Player.Look.ReadValue<Vector2>().x * sensitivity * 0.05f;
-            _mouseY -= inputManager.inputMaster.Player.Look.ReadValue<Vector2>().y * sensitivity * 0.05f;
+            _mouseX = inputManager.InputMaster.Player.Look.ReadValue<Vector2>().x * sensitivity * 0.05f;
+            _mouseY -= inputManager.InputMaster.Player.Look.ReadValue<Vector2>().y * sensitivity * 0.05f;
             _mouseY = Mathf.Clamp(_mouseY, -90.0f, 90.0f);
 
             cameraTransform.localRotation = Quaternion.Euler(_mouseY, 0.0f, 0.0f);

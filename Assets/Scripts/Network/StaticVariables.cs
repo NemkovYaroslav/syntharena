@@ -1,18 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Sample
+namespace Network
 {
     public class StaticVariables : MonoBehaviour
     {
-        private static List<Material> _playerMaterials = new List<Material>();
+        private static readonly List<Material> PlayerMaterials = new List<Material>();
     
-        public List<Material> PlayerMaterial => _playerMaterials;
-    
-        void Start()
+        public List<Material> PlayerMaterial => PlayerMaterials;
+
+        private void Start()
         {
-            _playerMaterials.Add(Resources.Load<Material>("doomguy_calmface"));
-            _playerMaterials.Add(Resources.Load<Material>("doomguy_screames"));
+            PlayerMaterials.Add(Resources.Load<Material>("doomguy_calmface"));
+            PlayerMaterials.Add(Resources.Load<Material>("doomguy_screames"));
         }
     }
 }

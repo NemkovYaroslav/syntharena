@@ -3,20 +3,20 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem.OnScreen;
 
-namespace Sample
+namespace Player
 {
     public class LookInput : OnScreenControl, IPointerMoveHandler, IPointerUpHandler, IPointerDownHandler
     {
         [InputControl(layout = "Vector2")]
         [SerializeField]
-        private string m_ControlPath;
+        private string inputControlPath;
 
         private bool _isPointerDown = false;
         
         protected override string controlPathInternal
         {
-            get => m_ControlPath;
-            set => m_ControlPath = value;
+            get => inputControlPath;
+            set => inputControlPath = value;
         }
         
         public void OnPointerMove(PointerEventData eventData)

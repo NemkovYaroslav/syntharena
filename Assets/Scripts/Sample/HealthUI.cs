@@ -1,3 +1,4 @@
+using Network;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,32 +6,32 @@ namespace Sample
 {
     public class HealthUI : MonoBehaviour
     {
-        private ServerHealthReplicator m_HealthTracker;
+        private ServerHealthReplicator _healthTracker;
         
-        private Slider m_HealthBar;
+        private Slider _healthBar;
 
-        void Start()
+        private void Start()
         {
-            m_HealthTracker = GetComponentInParent<ServerHealthReplicator>();
-            m_HealthBar = GetComponent<Slider>();
+            _healthTracker = GetComponentInParent<ServerHealthReplicator>();
+            _healthBar = GetComponent<Slider>();
             
-            m_HealthTracker.ReplicatedHealth.OnValueChanged += OnHealthChanged;
-            OnHealthChanged(0, m_HealthTracker.ReplicatedHealth.Value);
+            _healthTracker.ReplicatedHealth.OnValueChanged += OnHealthChanged;
+            OnHealthChanged(0, _healthTracker.ReplicatedHealth.Value);
         }
 
-        void OnHealthChanged(int previousValue, int newValue)
+        private void OnHealthChanged(int previousValue, int newValue)
         {
             SetHealthBarValue(newValue);
         }
-    
-        void SetHealthBarValue(int healthBarValue)
+
+        private void SetHealthBarValue(int healthBarValue)
         {
-            m_HealthBar.value = healthBarValue;
+            _healthBar.value = healthBarValue;
         }
-        
-        void OnDestroy()
+
+        private void OnDestroy()
         {
-            m_HealthTracker.ReplicatedHealth.OnValueChanged -= OnHealthChanged;
+            _healthTracker.ReplicatedHealth.OnValueChanged -= OnHealthChanged;
         }
     }
 }

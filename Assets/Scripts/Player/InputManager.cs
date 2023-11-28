@@ -1,24 +1,24 @@
 using UnityEngine;
 
-namespace Sample
+namespace Player
 {
     public class InputManager : MonoBehaviour
     {
-        public InputMaster inputMaster;
+        public InputMaster InputMaster;
 
         private void Awake()
         {
-            inputMaster = new InputMaster();
+            InputMaster = new InputMaster();
         }
 
         private void OnEnable()
         {
-            inputMaster.Enable();
+            InputMaster.Enable();
         }
 
         private void OnDisable()
         {
-            inputMaster.Disable();
+            InputMaster.Disable();
         }
     }
 }

@@ -1,20 +1,20 @@
 using Unity.Netcode;
 using UnityEngine;
 
-namespace Sample
+namespace Network
 {
     [RequireComponent(typeof(NetworkObject))]
     public class ServerHealthReplicator : NetworkBehaviour
     {
-        NetworkVariable<int> m_ReplicatedHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        private readonly NetworkVariable<int> _replicatedHealth = new NetworkVariable<int>(100, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     
-        public NetworkVariable<int> ReplicatedHealth => m_ReplicatedHealth; 
+        public NetworkVariable<int> ReplicatedHealth => _replicatedHealth; 
     
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
             
-            m_ReplicatedHealth.Value = 100;
+            _replicatedHealth.Value = 100;
             
             if (!IsServer)
             {
@@ -25,8 +25,8 @@ namespace Sample
     
         public int Health
         {
-            get => m_ReplicatedHealth.Value;
-            set => m_ReplicatedHealth.Value = value;
+            get => _replicatedHealth.Value;
+            set => _replicatedHealth.Value = value;
         }
     }
 }
