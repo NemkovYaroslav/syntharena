@@ -24,7 +24,6 @@ namespace Sample
             if (!_isPointerDown) return;
             
             SendValueToControl(eventData.delta);
-            Debug.Log("DELTA: " + eventData.delta);
         }
 
         public void OnPointerUp(PointerEventData eventData)

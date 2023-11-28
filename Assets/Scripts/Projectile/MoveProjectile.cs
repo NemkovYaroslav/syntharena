@@ -1,10 +1,7 @@
 using System;
-using Player;
 using Sample;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Projectile
 {
@@ -12,6 +9,8 @@ namespace Projectile
     {
         [SerializeField] private float shootForce;
         private Rigidbody _rigidbody;
+        
+        [SerializeField] private AnalyticsComponent analytics;
         
         private void Start()
         {
@@ -66,6 +65,9 @@ namespace Projectile
             
             if (serverHealthReplicator.Health <= 0)
             {
+                analytics.OnPlayerDead(Convert.ToInt32(serverHealthReplicator.OwnerClientId.ToString()));
+                Debug.Log("Player " + Convert.ToInt32(serverHealthReplicator.OwnerClientId.ToString()) + " is dead");
+                
                 serverHealthReplicator.gameObject.GetComponent<ServerPlayerMove>().OnServerRespawnPlayer();
             }
             

@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Projectile;
 using Sample;
-using Support;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -13,6 +10,8 @@ public class ShootProjectile : NetworkBehaviour
     
     [SerializeField] private GameObject projectile;
     [SerializeField] private Transform shootTransform;
+    
+    [SerializeField] private AnalyticsComponent analytics;
     
     private NetworkVariable<int> _playerIndexMaterial = new NetworkVariable<int>(0);
 
@@ -41,6 +40,9 @@ public class ShootProjectile : NetworkBehaviour
             
         if (_canShoot)
         {
+            analytics.OnPlayerShot(Convert.ToInt32(OwnerClientId.ToString()));
+            Debug.Log("Player: " + Convert.ToInt32(OwnerClientId.ToString()) + " shot");
+            
             _canShoot = false;
             ChangeMaterialServerRpc();
             InstantiateProjectileServerRpc();

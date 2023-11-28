@@ -6,6 +6,8 @@ namespace Sample
     [DefaultExecutionOrder(0)]
     public class ServerPlayerMove : NetworkBehaviour
     {
+        [SerializeField] private AnalyticsComponent analytics;
+            
         private ServerHealthReplicator m_HealthTracker;
         
         public override void OnNetworkSpawn()

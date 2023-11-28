@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -42,6 +43,13 @@ namespace Sample
             
             inputManager.inputMaster.Player.Sprint.started += _ => ClientSprint();
             inputManager.inputMaster.Player.Sprint.canceled += _ => ClientSprint();
+
+            inputManager.inputMaster.Player.ThrowException.started += _ => ClientThrowSomeException();
+        }
+
+        private void ClientThrowSomeException()
+        {
+            
         }
 
         private void Update()

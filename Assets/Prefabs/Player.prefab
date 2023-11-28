@@ -50,6 +50,7 @@ GameObject:
   - component: {fileID: -688244321646683176}
   - component: {fileID: 4940925388182166896}
   - component: {fileID: -4915795092243225598}
+  - component: {fileID: -2600605876389682887}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -158,7 +159,7 @@ MonoBehaviour:
   inputManager: {fileID: 4906011089838748392}
   walkSpeed: 4
   sprintSpeed: 8
-  sensitivity: 50
+  sensitivity: 1
   cameraTransform: {fileID: 6387001799244720280}
   jumpHeight: 2
   gravityScale: 1.5
@@ -174,6 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760dbd2ada625e6498a85106737fcf30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  analytics: {fileID: -2600605876389682887}
 --- !u!114 &2916427601540541478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,6 +249,7 @@ MonoBehaviour:
   projectile: {fileID: 3349675645951723571, guid: dc139ba9abac53b4bbcc81cc3240535b,
     type: 3}
   shootTransform: {fileID: 3766486659630900008}
+  analytics: {fileID: -2600605876389682887}
 --- !u!114 &-4915795092243225598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,6 +270,18 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &-2600605876389682887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750978479906686097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5596c66f8f0f2d24d83297df3b2f63a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2378490557592222877
 GameObject:
   m_ObjectHideFlags: 0
