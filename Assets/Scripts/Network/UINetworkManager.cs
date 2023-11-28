@@ -7,7 +7,6 @@ namespace Network
 {
     public class UINetworkManager : MonoBehaviour
     {
-        [SerializeField] private Button startServerButton;
         [SerializeField] private Button startHostButton;
         [SerializeField] private Button startClientButton;
     
@@ -40,17 +39,6 @@ namespace Network
                     DisableMainMenu();
                 }
             );
-            startServerButton.onClick.AddListener(
-                () =>
-                {
-                    Debug.unityLogger.Log(LogType.Log,
-                        NetworkManager.Singleton.StartServer() ? "Server started..." : "Server could not be started...");
-                    
-                    DisableButtons();
-                    EnableMobileControllers();
-                    DisableMainMenu();
-                }
-            );
             startClientButton.onClick.AddListener(
                 () =>
                 {
@@ -67,7 +55,6 @@ namespace Network
         private void DisableButtons()
         {
             startHostButton.enabled = false;
-            startServerButton.enabled = false;
             startClientButton.enabled = false;
         }
 
